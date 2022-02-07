@@ -1,2 +1,2 @@
 # cs-stories-ehs
-The external hosting server for the FiveM resource "cs-stories".
+This is a Node.js application and its sole purpose is to be used in conjuction (when needed) with "cs-stories" FiveM resource.
