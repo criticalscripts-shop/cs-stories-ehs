@@ -106,7 +106,7 @@ app.post('/internal', (req, res) => {
                         if (fs.existsSync(videoPath))
                             fs.unlinkSync(videoPath)
 
-                        fs.unlinkSync(metaPath, dirFile.name)
+                        fs.unlinkSync(path.join(metaPath, dirFile.name))
                     } else
                         storedStoriesCount++
 
