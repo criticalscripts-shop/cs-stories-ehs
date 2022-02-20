@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'production'
+
 const origWarning = process.emitWarning
 
 process.emitWarning = (...args) => { // A dirty hack to suppress busboy deprecation warning regarding Buffer since we cannot really overcome it.
