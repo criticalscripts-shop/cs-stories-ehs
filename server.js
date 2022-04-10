@@ -26,6 +26,8 @@ if ((!fs.existsSync(storagePath)) || (!fs.existsSync(metaPath)) || (!fs.existsSy
 if ((!config) || (!config.authKey))
     throw new Error('[criticalscripts.shop] The configuration file is either incomplete or invalid.')
 
+const globalViewKey = crypto.createHash('sha256').update(config.authKey).digest('hex')
+
 let storedStoriesCount = 0
 let dirFile = null
 
@@ -138,7 +140,7 @@ app.get('/thumbnail/:uuid.jpg', (req, res) => {
 })
 
 app.get('/video/:key/:uuid.webm', (req, res) => {
-    if (!accessKeys.includes(req.params.key)) {
+    if ((!accessKeys.includes(req.params.key)) && req.params.key !== globalViewKey) {
         res.status(401).send()
         return
     }
@@ -171,7 +173,7 @@ app.get('/video/:key/:uuid.webm', (req, res) => {
 })
 
 app.post('/upload/:key/:duration', (req, res) => {
-    if (!accessKeys.includes(req.params.key)) {
+    if ((!accessKeys.includes(req.params.key)) && req.params.key !== globalViewKey) {
         res.status(401).send()
         return
     } else if (storedStoriesCount + 1 > config.maximumStoriesStored) {
