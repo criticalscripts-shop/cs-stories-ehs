@@ -97,8 +97,10 @@ app.post('/internal', (req, res) => {
             storedStoriesCount = 0
 
             while ((dirFile = resetStorageDir.readSync()) !== null)
-                if (dirFile.isFile() && dirFile.name.endsWith('.json'))
-                    if (!data.includes(dirFile.name.replace('.json', ''))) {
+                if (dirFile.isFile() && dirFile.name.endsWith('.json')) {
+                    const uuid = dirFile.name.replace('.json', '')
+
+                    if (!data.includes(uuid)) {
                         const thumbnailPath = path.join(thumbnailsPath, `${uuid}.jpg`)
                         const videoPath = path.join(videosPath, `${uuid}.webm`)
 
@@ -111,6 +113,7 @@ app.post('/internal', (req, res) => {
                         fs.unlinkSync(path.join(metaPath, dirFile.name))
                     } else
                         storedStoriesCount++
+                }
 
             resetStorageDir.closeSync()
 
